@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Get current brightness level
+current_brightness=$(cat /sys/class/backlight/rpi_backlight/brightness)
+
+# Display the current brightness level and prompt for the desired level
+echo "Current brightness level is: $current_brightness"
+read -p "Enter desired brightness level (0-255): " new_brightness
+
+# Validate the input to ensure it's within the acceptable range
+if [[ "$new_brightness" -ge 0 && "$new_brightness" -le 255 ]]; then
+    echo $new_brightness | sudo tee /sys/class/backlight/rpi_backlight/brightness
+    echo "Brightness set to: $new_brightness"
+else
+    echo "Invalid brightness level. Please enter a value between 0 and 255."
+fi
