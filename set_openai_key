@@ -30,6 +30,6 @@ RESPONSE=$(curl -k -s \
 # Parse the response to extract the API key
 API_KEY=$(echo $RESPONSE | jq -r '.data.data.api_key')
 
-export OPENAI_API_KET="$API_KEY"
+export OPENAI_API_KEY="$API_KEY"
 
 echo "OpenAI API Key has been exported."
