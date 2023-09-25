@@ -19,6 +19,17 @@ if [ -z "$VAULT_TOKEN" ] || [ "$VAULT_TOKEN" == "null" ]; then
   exit 1
 fi
 
-export VAULT_TOKEN="$VAULT_TOKEN"
+echo "Vault token has been retrieved."
 
-echo "Vault token has been retrieved and exported."
+SECRET_PATH="kv/data/openai"
+
+RESPONSE=$(curl -k -s \
+  -H "X-Vault-Token: $VAULT_TOKEN" \
+  "$VAULT_ADDR/v1/$SECRET_PATH")
+
+# Parse the response to extract the API key
+API_KEY=$(echo $RESPONSE | jq -r '.data.data.api_key')
+
+export OPENAI_API_KET="$API_KEY"
+
+echo "OpenAI API Key has been exported."
